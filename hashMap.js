@@ -126,7 +126,7 @@ class HashMap {
 
     for (let bucket of oldBuckets) {
       for (let {key, value} of bucket) {
-        this.set(key.value);
+        this.set(key, value);
       }
     }
 
