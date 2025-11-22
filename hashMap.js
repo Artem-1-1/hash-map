@@ -15,6 +15,7 @@ class HashMap {
     }
     return hashCode;
   }
+
   set(key, value) {
     let hashCode = this.hash(key);
 
@@ -54,5 +55,54 @@ class HashMap {
     }
     return false;
   }
-  
+
+  remove(key) {
+    let hashCode = this.hash(key);
+    let bucket = this.buckets[hashCode];
+    if (!bucket) return false;
+    for (let i = 0;i < this.buckets.length;i++) {
+      if (bucket[i].key === key) {
+        bucket.splice(i, 1);
+        this.size--;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  length() {
+    return this.size;
+  }
+
+  clear() {
+    this.buckets = Array.from({length: this.capacity}, () => []);
+    this.size = 0;
+    return true;
+  }
+
+  keys() {
+    let keys = [];
+    if (this.size <= 0) return keys;
+    for (bucket of this.buckets) {
+      if (!bucket) continue;
+      for (let element of bucket) {
+        keys.push(element.key);
+      }
+    }
+    return keys;
+  }
+
+  resize() {
+    this.capacity *= 2;
+    const oldBuckets = this.buckets;
+    this.buckets = Array.from({length: this.capacity}, () => []);
+    this.size = 0;
+
+    for (let bucket of oldBuckets) {
+      for (let {key, value} of bucket) {
+        this.set(key.value);
+      }
+    }
+
+  }
 }
