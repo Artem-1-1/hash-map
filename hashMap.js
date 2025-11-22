@@ -1,4 +1,4 @@
-class HashMap {
+export class HashMap {
   constructor() {
     this.loadFactor = 0.75;
     this.capacity = 16;
@@ -7,13 +7,13 @@ class HashMap {
   }
 
   hash(key) {
-    hashCode = 0;
+    let hashCode = 0;
 
     const primeNumber = 31;
     for (let i = 0;i < key.length; i++) {
       hashCode = primeNumber * hashCode + key.charCodeAt(i);
     }
-    return hashCode;
+    return hashCode % this.capacity;
   }
 
   set(key, value) {
@@ -57,10 +57,10 @@ class HashMap {
   }
 
   remove(key) {
-    let hashCode = this.hash(key);
-    let bucket = this.buckets[hashCode];
+    let index = this.hash(key);
+    let bucket = this.buckets[index];
     if (!bucket) return false;
-    for (let i = 0;i < this.buckets.length;i++) {
+    for (let i = 0;i < bucket.length; i++) {
       if (bucket[i].key === key) {
         bucket.splice(i, 1);
         this.size--;
@@ -83,7 +83,7 @@ class HashMap {
   keys() {
     let keys = [];
     if (this.size <= 0) return keys;
-    for (bucket of this.buckets) {
+    for (let bucket of this.buckets) {
       if (!bucket) continue;
       for (let element of bucket) {
         keys.push(element.key);
@@ -95,9 +95,9 @@ class HashMap {
   values() {
     let values = [];
     if (this.size <= 0) return values;
-    for (bucket of this.buckets) {
+    for (let bucket of this.buckets) {
       if (!bucket) continue;
-      for (let element of this.buckets) {
+      for (let element of bucket) {
         values.push(element.value);
       }
     }
@@ -107,10 +107,10 @@ class HashMap {
   entries() {
     let entries = [];
     if (this.size <= 0) return entries;
-    for (bucket of this.buckets) {
+    for (let bucket of this.buckets) {
       if (!bucket) continue;
-      for (let element of this.buckets) {
-        let key = element.value;
+      for (let element of bucket) {
+        let key = element.key;
         let value = element.value;
         entries.push({key,value});
       }
@@ -125,10 +125,10 @@ class HashMap {
     this.size = 0;
 
     for (let bucket of oldBuckets) {
+      if (!bucket) continue;
       for (let {key, value} of bucket) {
         this.set(key, value);
       }
     }
-
   }
 }

@@ -1,6 +1,6 @@
 import { HashMap } from "./hashMap.js";
 
-const hashMap  = new HashMap();
+const test = new HashMap();
 
 test.set('apple', 'red')
 test.set('banana', 'yellow')
@@ -14,3 +14,9 @@ test.set('ice cream', 'white')
 test.set('jacket', 'blue')
 test.set('kite', 'pink')
 test.set('lion', 'golden')
+
+console.log("Entries ", test.entries());
+console.log("Keys ", test.keys());
+console.log("Values ", test.values());
+console.log("Length ", test.length());
+console.log("Capacity ", test.capacity);
