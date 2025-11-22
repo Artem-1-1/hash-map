@@ -92,6 +92,32 @@ class HashMap {
     return keys;
   }
 
+  values() {
+    let values = [];
+    if (this.size <= 0) return values;
+    for (bucket of this.buckets) {
+      if (!bucket) continue;
+      for (let element of this.buckets) {
+        values.push(element.value);
+      }
+    }
+    return values;
+  }
+  
+  entries() {
+    let entries = [];
+    if (this.size <= 0) return entries;
+    for (bucket of this.buckets) {
+      if (!bucket) continue;
+      for (let element of this.buckets) {
+        let key = element.value;
+        let value = element.value;
+        entries.push({key,value});
+      }
+    }
+    return entries;
+  }
+
   resize() {
     this.capacity *= 2;
     const oldBuckets = this.buckets;
